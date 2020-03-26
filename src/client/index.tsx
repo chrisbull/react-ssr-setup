@@ -4,10 +4,10 @@ import { Provider } from 'react-redux';
 import { Router } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
 
-import { configureStore } from '../shared/store';
-import App from '../shared/App';
-import IntlProvider from '../shared/i18n/IntlProvider';
-import createHistory from '../shared/store/history';
+import { configureStore } from '../store';
+import App from '../App';
+import IntlProvider from '../i18n/IntlProvider';
+import createHistory from '../store/history';
 
 const history = createHistory();
 

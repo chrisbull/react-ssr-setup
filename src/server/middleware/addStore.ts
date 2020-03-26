@@ -1,5 +1,5 @@
 import * as express from 'express';
-import { configureStore } from '../../shared/store';
+import { configureStore } from '../../store';
 
 const addStore = (
     _req: express.Request,

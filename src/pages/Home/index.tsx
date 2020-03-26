@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-import Features from 'shared/components/Features';
+import Features from 'components/Features';
 import { setLocale } from 'store/app/actions';
 import { Locale } from 'store/app/types';
 

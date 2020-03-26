@@ -20,8 +20,7 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "paths": {
-      "*": ["shared/*", "client/*", "server/*", "*"]
-    }
+      "*": ["*"]
   },
   "include": ["src"]
 }

@@ -5,8 +5,8 @@ import { StaticRouter as Router } from 'react-router-dom';
 import { Store } from 'redux';
 import { Provider } from 'react-redux';
 import { HelmetProvider } from 'react-helmet-async';
-import IntlProvider from '../../shared/i18n/IntlProvider';
-import App from '../../shared/App';
+import IntlProvider from '../../i18n/IntlProvider';
+import App from '../../App';
 import Html from '../components/HTML';
 
 const helmetContext = {};
