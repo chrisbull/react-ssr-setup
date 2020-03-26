@@ -4,6 +4,8 @@ const generateSourceMap = process.env.OMIT_SOURCEMAP === 'true' ? false : true;
 
 const cssRegex = /\.css$/;
 const cssModuleRegex = /\.module\.css$/;
+const sassRegex = /\.(scss|sass)$/;
+const sassModuleRegex = /\.module\.(scss|sass)$/;
 
 // temporary wrapper function around getCSSModuleLocalIdent until this issue is resolved:
 // https://github.com/webpack-contrib/css-loader/pull/965
@@ -116,6 +118,131 @@ const cssLoaderServer = {
     use: [MiniCssExtractPlugin.loader, require.resolve('css-loader')],
 };
 
+const sassModuleLoaderClient = {
+    test: sassModuleRegex,
+    use: [
+        require.resolve('css-hot-loader'),
+        MiniCssExtractPlugin.loader,
+        {
+            loader: require.resolve('css-loader'),
+            options: {
+                localsConvention: 'camelCase',
+                modules: {
+                    // getLocalIdent: getCSSModuleLocalIdent,
+                    getLocalIdent: getLocalIdentWorkaround,
+                },
+                importLoaders: 3,
+                sourceMap: generateSourceMap,
+                // localIdentName: '[name]__[local]--[hash:base64:5]',
+                // getLocalIdent: getCSSModuleLocalIdent,
+            },
+        },
+        {
+            loader: require.resolve('postcss-loader'),
+            options: {
+                sourceMap: generateSourceMap,
+            },
+        },
+        {
+            loader: require.resolve('resolve-url-loader'),
+            options: {
+                sourceMap: generateSourceMap,
+            },
+        },
+        {
+            loader: require.resolve('sass-loader'),
+            options: {
+                sourceMap: true,
+            },
+        },
+    ],
+};
+
+const sassLoaderClient = {
+    test: sassRegex,
+    exclude: sassModuleRegex,
+    use: [
+        require.resolve('css-hot-loader'),
+        MiniCssExtractPlugin.loader,
+        require.resolve('css-loader'),
+        {
+            loader: require.resolve('postcss-loader'),
+            options: {
+                sourceMap: generateSourceMap,
+            },
+        },
+        {
+            loader: require.resolve('resolve-url-loader'),
+            options: {
+                sourceMap: generateSourceMap,
+            },
+        },
+        {
+            loader: require.resolve('sass-loader'),
+            options: {
+                sourceMap: true,
+            },
+        },
+    ],
+};
+
+const sassModuleLoaderServer = {
+    test: sassModuleRegex,
+    use: [
+        {
+            loader: require.resolve('css-loader'),
+            options: {
+                onlyLocals: true,
+                localsConvention: 'camelCase',
+                importLoaders: 3,
+                modules: {
+                    // getLocalIdent: getCSSModuleLocalIdent,
+                    getLocalIdent: getLocalIdentWorkaround,
+                },
+            },
+        },
+        {
+            loader: require.resolve('postcss-loader'),
+            options: {
+                sourceMap: generateSourceMap,
+            },
+        },
+        {
+            loader: require.resolve('resolve-url-loader'),
+            options: {
+                sourceMap: generateSourceMap,
+            },
+        },
+        {
+            loader: require.resolve('sass-loader'),
+            options: {
+                sourceMap: true,
+            },
+        },
+    ],
+};
+
+const sassLoaderServer = {
+    test: sassRegex,
+    exclude: sassModuleRegex,
+    use: [
+        MiniCssExtractPlugin.loader,
+        require.resolve('css-loader'),
+        {
+            loader: require.resolve('resolve-url-loader'),
+            options: {
+                sourceMap: generateSourceMap,
+            },
+        },
+        {
+            loader: require.resolve('sass-loader'),
+            options: {
+                sourceMap: true,
+            },
+        },
+    ],
+};
+
 const urlLoaderClient = {
     test: /\.(png|jpe?g|gif|svg)$/,
     loader: require.resolve('url-loader'),
@@ -164,6 +291,8 @@ export const client = [
             babelLoader,
             cssModuleLoaderClient,
             cssLoaderClient,
+            sassModuleLoaderClient,
+            sassLoaderClient,
             urlLoaderClient,
             fileLoaderClient,
         ],
@@ -176,6 +305,8 @@ export const server = [
             babelLoader,
             cssModuleLoaderServer,
             cssLoaderServer,
+            sassModuleLoaderServer,
+            sassLoaderServer,
             urlLoaderServer,
             fileLoaderServer,
         ],

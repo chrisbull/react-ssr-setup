@@ -9,7 +9,7 @@ import Home from './pages/Home';
 import Page1 from './pages/Page-1';
 import Page2 from './pages/Page-2';
 import routes from './routes';
-import css from './App.module.css';
+import styles from './App.scss';
 
 // Does not yet work with server side rendering:
 // const Home = React.lazy(() => import('./pages/Home'));
@@ -20,15 +20,15 @@ const App: React.FC<any> = () => {
     const { t } = useTranslation();
     return (
         // <Suspense fallback={<div>Loading</div>}>
-        <div className={css.wrapper}>
+        <div className="wrapper">
             <Helmet
                 defaultTitle="React SSR Starter – TypeScript Edition"
                 titleTemplate="%s – React SSR Starter – TypeScript Edition"
                 link={[{ rel: 'icon', type: 'image/png', href: favicon }]}
             />
             <h1>
-                <ReactLogo className={css.reactLogo} /> React + Express – SSR Starter – TypeScript
-                Edition
+                <ReactLogo className={styles.reactLogo} /> React + Express – SSR Starter –
+                TypeScript Edition
             </h1>
             <Switch>
                 <Route exact path={routes.home} component={Home} />

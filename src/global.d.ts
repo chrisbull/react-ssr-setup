@@ -6,6 +6,8 @@ declare namespace NodeJS {
     }
 }
 
+declare module '*.scss';
+
 declare module '*.bmp' {
     const src: string;
     export default src;
